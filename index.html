@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EcoVR Lab - VR-игра для обучения детей сортировке отходов">
+    <title>EcoVR Lab | Обучение через виртуальную реальность</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-green: #1A8F4A;
+            --secondary-blue: #2C5F8A;
+            --light-bg: #F8F9FA;
+            --dark-text: #2C3E50;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--dark-text);
+            background-color: var(--light-bg);
+        }
+
+        /* Навигация */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-link {
+            color: var(--dark-text) !important;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-green) !important;
+            transform: translateY(-2px);
+        }
+
+        /* Герой-секция */
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                        url('https://example.com/eco-bg.jpg') center/cover;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+
+        .hero-stats {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        /* Секции контента */
+        .section-title {
+            color: var(--primary-green);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* График результатов */
+        .results-chart {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+        }
+
+        /* Секция загрузки */
+        .download-card {
+            border: 2px dashed var(--primary-green);
+            border-radius: 20px;
+            background: rgba(26, 143, 74, 0.05);
+        }
+
+        /* Футер */
+        footer {
+            background: var(--dark-text);
+            color: white;
+            padding: 3rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                min-height: 60vh;
+                text-align: center;
+            }
+            
+            .display-4 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="logo.svg" alt="EcoVR Lab" height="40">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#research">Исследование</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#features">Возможности</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#results">Результаты</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#download">Скачать</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Герой-секция -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h1 class="display-4 mb-4">Виртуальная реальность для экологического образования</h1>
+                    <div class="hero-stats">
+                        <div class="row g-4">
+                            <div class="col-md-4">
+                                <div class="text-center">
+                                    <h2 class="text-success">90%</h2>
+                                    <p>Эффективность обучения</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="text-center">
+                                    <h2 class="text-success">150+</h2>
+                                    <p>Участников</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="text-center">
+                                    <h2 class="text-success">1</h2>
+                                    <p>Школа-партнер</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Секция исследования -->
+    <section id="research" class="py-5">
+        <div class="container">
+            <h2 class="section-title text-center mb-5">Научная база проекта</h2>
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <div class="results-chart">
+                        <canvas id="resultsChart"></canvas>
+                        <p class="text-muted mt-3">*Статистическая значимость p < 0.05 (T-критерий Стьюдента)</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h3>Методология исследования</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-3"><i class="bi bi-check2-circle me-2 text-success"></i>Выборка: 200 детей 7-12 лет</li>
+                        <li class="mb-3"><i class="bi bi-check2-circle me-2 text-success"></i>VR-сеанс 15-20 минут</li>
+                        <li class="mb-3"><i class="bi bi-check2-circle me-2 text-success"></i>Тестирование до и после</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Секция возможностей -->
+    <section id="features" class="py-5 bg-white">
+        <div class="container">
+            <h2 class="section-title text-center mb-5">Возможности игры</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card p-4 h-100">
+                        <div class="text-center mb-3">
+                            <i class="bi bi-controller fs-1 text-success"></i>
+                        </div>
+                        <h4 class="text-center">Интерактивное обучение</h4>
+                        <p>Динамические объекты, система достижений и прогресса</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card p-4 h-100">
+                        <div class="text-center mb-3">
+                            <i class="bi bi-graph-up fs-1 text-success"></i>
+                        </div>
+                        <h4 class="text-center">Статистика</h4>
+                        <p>Персональное количество очков!</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card p-4 h-100">
+                        <div class="text-center mb-3">
+                            <i class="bi bi-people fs-1 text-success"></i>
+                        </div>
+                        <h4 class="text-center">"СКОРО" Мультиплеер</h4>
+                        <p>Совместная игра с друзьями и рейтинг классов</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Секция загрузки -->
+    <section id="download" class="py-5">
+        <div class="container">
+            <div class="download-card p-5">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h3 class="mb-3">Скачайте демо-версию</h3>
+                        <p class="lead">Попробуйте первые 2 уровня бесплатно!</p>
+                        <div class="system-requirements">
+                            <p><i class="bi bi-windows me-2"></i>Windows 10|11+</p>
+                            <p><i class="bi bi-headset me-2"></i>Поддержка VR-шлемов с наличием Varwin</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <a href="PR_VR1_3.exe" class="btn btn-success btn-lg px-5 py-3" download>
+                            <i class="bi bi-download me-2"></i>850 МБ
+                        </a>
+                        <p class="small mt-2">SHA-256: a1b2c3d4e5f6</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer>
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <h5>EcoVR</h5>
+                    <p>Обучение через виртуальную реальность</p>
+                    <div class="social-links">
+                        <a href="#" class="text-white me-3"><i class="bi bi-telegram"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-youtube"></i></a>
+                        <a href="#" class="text-white"><i class="bi bi-github"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h5>Контакты</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-geo-alt me-2"></i>Нижний Новгород</li>
+                        <li><i class="bi bi-envelope me-2"></i>timurfix21@gmail.com</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Статистика</h5>
+                    <div class="tree-counter">
+                        <i class="bi bi-tree me-2"></i>
+                        <span class="counter">132</span> деревьев спасено
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center">
+                <small>© 2025 НОУ "Эврика"</small>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Скрипты -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Инициализация графика
+        const ctx = document.getElementById('resultsChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['До обучения', 'После обучения'],
+                datasets: [{
+                    label: 'Уровень знаний (%)',
+                    data: [30, 90],
+                    backgroundColor: ['#2C5F8A', '#1A8F4A'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {beginAtZero: true}
+                }
+            }
+        });
+
+        // Анимация счетчика
+        function animateCounter(element, start, end, duration) {
+            let current = start;
+            const increment = end > start ? 1 : -1;
+            const stepTime = Math.abs(Math.floor(duration / (end - start)));
+            const timer = setInterval(() => {
+                current += increment;
+                element.textContent = current;
+                if (current === end) clearInterval(timer);
+            }, stepTime);
+        }
+
+        // Запуск анимации при скролле
+        window.addEventListener('scroll', () => {
+            const counter = document.querySelector('.counter');
+            if (counter && !counter.dataset.animated) {
+                animateCounter(counter, 0, 132, 2000);
+                counter.dataset.animated = true;
+            }
+        });
+    </script>
+</body>
+</html>
